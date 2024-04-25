@@ -2,6 +2,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db import Quiz, Question, Option
 
+#Modified on 25th April
+
 # Database configuration
 DB_URI = 'sqlite:///instance/quiz.db'
 

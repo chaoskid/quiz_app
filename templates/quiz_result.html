@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ quiz.title }} Results</h1>
+<h3> You Scored {{ user_score }} out of {{ quiz.questions|length }}</h3>
+
+<br>
+<br>
+
+<a href="{{ url_for('routes.dashboard') }}"> Back to Dashboard</a>
+
+{% endblock %}

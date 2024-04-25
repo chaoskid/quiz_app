@@ -1,0 +1,150 @@
+* {
+    font-family: 'poppins',sans-serif;
+}
+
+* {
+    font-size: 1em;
+    line-height: 1.5em; 
+ }
+
+ /* Styling the header */
+header {
+
+    background-color:rgb(0, 106, 255);
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: 0;
+    text-align: right;
+    color: white;
+}
+
+#main_heading {
+
+    width: 10%;
+    float: left;
+    margin-top: -10px;
+}
+
+
+header li {
+
+    display: inline;
+    font-size: 1.2em;
+    margin-left: 20px;
+    color: white;
+
+}
+
+header li a {
+    color: white;
+    text-decoration: none;
+}
+
+.body_container {
+    margin: 0;
+    font-size: 1em;
+    padding-top:1%;
+    padding-bottom:5%;
+    padding-left: 10%;
+    padding-right: 10%;
+    background-color: white;
+    height:max-content;
+}
+
+.flash-messages {
+
+    padding: 2%;
+    background-color: rgb(252, 223, 0);
+    color: black;
+}
+
+.body_container h1 {
+
+    font-size: 2em;
+}
+
+button {
+
+    background-color:rgb(0, 106, 255);
+    padding: 10px; 
+    color: white;
+    border: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(0, 106, 255);
+}
+
+input {
+    
+    margin-top: 5px;
+    margin-bottom: 15px;
+
+}
+
+.dashboard_quiz {
+
+    display: inline-block;
+    margin: 10px;
+    margin-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 20%;
+    border: 1px solid #006aff;
+}
+
+.dashboard_quiz a {
+    
+    margin-top: 10px;
+    background-color: rgb(0, 106, 255);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: white;
+}
+
+.question {
+
+    display: inline-block;
+    width: 25%;
+    border: 1px rgb(0, 106, 255) solid;
+    padding: 15px;
+    margin: 10px; 
+    box-shadow: 2px 2px #d3d3d3;
+}
+
+.question p {
+
+    font-size: larger;
+    margin-bottom: 0;
+}
+
+.question hr {
+
+    border-top: 1px solid rgb(0, 106, 255);
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.quiz_form button {
+    margin-top: 35px;
+}
+
+.options {
+    display: inline-block;
+    width: 40%;
+    border:rgb(0, 106, 255) solid 1px;
+    border-radius: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 5px;
+}

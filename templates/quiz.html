@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ quiz.title }}</h1>
+    <p>Please answer all {{ quiz.questions|length }} question(s).</p>
+    <form class="quiz_form" action="{{ url_for('routes.take_quiz', quiz_id=quiz.id) }}" method="post">
+        {% for question in quiz.questions %}
+            <div class="question">
+                <p>{{ loop.index }}. {{ question.text }}</p>
+                <hr>
+                {% for option in question.options %}
+                <div class="options">
+                    <label>
+                        <input type="radio" name="question{{ question.id }}" value="{{ option.id }}"> {{ option.text }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+
+{% endblock %}

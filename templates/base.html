@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Quiz App</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+<body>
+    <Header>
+        
+        <nav>
+            {% if current_user.is_authenticated %}
+            <ul>
+            <li><a><img src="{{ url_for('static', filename='quizgeniuslogo.png') }}" id="main_heading"></a></li>
+            <li><a href="{{ url_for('routes.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('routes.logout') }}">Logout</a></li>
+            </ul>
+            {% else %}
+            <ul>
+            <li><a><img src="{{ url_for('static', filename='quizgeniuslogo.png') }}" id="main_heading"></a></li>
+            <li><a href="{{ url_for('routes.login') }}">Login</a></li>
+            <li><a href="{{ url_for('routes.register') }}">Register</a></li>
+            </ul>
+            {% endif %}
+        </nav>
+    </Header>
+    <div class="body_container">
+    <main>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class = "flash-messages">
+            {% for message in messages%}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+    </div>
+</body>
+</html>

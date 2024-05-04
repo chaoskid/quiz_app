@@ -86,7 +86,6 @@ quiz1_data = QuizData(
                 OptionData(text='19', is_correct=False)
             ]
         )
-        # Add more questions here...
     ]
 )
 

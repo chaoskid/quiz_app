@@ -3,6 +3,14 @@ from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import db, User, Quiz, Option, UserQuizScore
 
+import bcrypt
+
+def hash_password(password):
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+def verify_password(hashed_password,password):
+    return bcrypt.checkpw(password.encode('utf-8'),hashed_password)
+
 routes = Blueprint('routes', __name__)
 
 @routes.route('/')
@@ -14,7 +22,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        hashed_password = generate_password_hash(password)
+        hashed_password = hash_password(password)
         new_user = User(username=username, pswrd=hashed_password)
         db.session.add(new_user)
         db.session.commit()
@@ -29,7 +37,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
-        if user and check_password_hash(user.pswrd, password):
+        if user and verify_password(user.pswrd, password):
             login_user(user)
             print("User Logged In")
             return redirect(url_for('routes.dashboard'))

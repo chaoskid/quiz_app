@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Dashboard</h1>
+<h1>Hola {{ current_user.firstname }}, welcome back!</h1>
 <h2> Quizes Available For You</h2>
 <div class="dashboard_quiz_container">
 {% for quiz in quizes %}

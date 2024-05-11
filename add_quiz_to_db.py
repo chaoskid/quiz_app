@@ -48,7 +48,7 @@ def add_quiz(quiz_data):
 
 # Example quizzes data
 quiz1_data = QuizData(
-    title='Math Quiz 5',
+    title='Math Quiz 1',
     questions_data=[
         QuestionData(
             text='What is 2 * 2?',
@@ -90,6 +90,56 @@ quiz1_data = QuizData(
 )
 
 
+
 add_quiz(quiz1_data)
+
+print("Quizzes and questions added successfully!")
+
+
+quiz2_data = QuizData(
+    title='Math Quiz 2',
+    questions_data=[
+        QuestionData(
+            text='What is 2 - 2?',
+            options_data=[
+                OptionData(text='4', is_correct=False),
+                OptionData(text='0', is_correct=True),
+                OptionData(text='1', is_correct=False),
+                OptionData(text='6', is_correct=False)
+            ]
+        ),
+        QuestionData(
+            text='What is 5 + 6 - 3?',
+            options_data=[
+                OptionData(text='11', is_correct=False),
+                OptionData(text='22', is_correct=False),
+                OptionData(text='8', is_correct=True),
+                OptionData(text='5', is_correct=False)
+            ]
+        ),
+        QuestionData(
+            text='What is 12 - 6 * 2?',
+            options_data=[
+                OptionData(text='0', is_correct=True),
+                OptionData(text='1', is_correct=False),
+                OptionData(text='2', is_correct=False),
+                OptionData(text='3', is_correct=False)
+            ]
+        ),
+        QuestionData(
+            text='What is 11 + 6 + 93?',
+            options_data=[
+                OptionData(text='100', is_correct=False),
+                OptionData(text='110', is_correct=True),
+                OptionData(text='120', is_correct=False),
+                OptionData(text='130', is_correct=False)
+            ]
+        )
+    ]
+)
+
+
+
+add_quiz(quiz2_data)
 
 print("Quizzes and questions added successfully!")

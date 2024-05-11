@@ -13,6 +13,9 @@
             <ul>
             <li><a><img src="{{ url_for('static', filename='quizgeniuslogo.png') }}" id="main_heading"></a></li>
             <li><a href="{{ url_for('routes.dashboard') }}">Dashboard</a></li>
+            {% if current_user.role == 'Admin'%}
+            <li><a href="{{ url_for('routes.create_quiz') }}">Quizzes</a></li>
+            {% endif %}
             <li><a href="{{ url_for('routes.logout') }}">Logout</a></li>
             </ul>
             {% else %}

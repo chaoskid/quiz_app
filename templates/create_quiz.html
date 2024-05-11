@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Create Quiz</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.title.label }} {{ form.title() }} <br>
+    <div id="questions">
+        {% set question_number = 1 %}
+        <div class="question">
+            {{ form.questions[0].text.label }} {{ form.questions[0].text() }}
+            <hr>
+            {% for option in form.questions[0].options %}
+                <div>
+                    {{ option.text.label }} {{ option.text() }} <br>
+                    {{ option.is_correct.label }} {{ option.is_correct() }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="question">
+            {{ form.questions[1].text.label }} {{ form.questions[1].text() }}
+            <hr>
+            {% for option in form.questions[1].options %}
+                <div>
+                    {{ option.text.label }} {{ option.text() }} <br>
+                    {{ option.is_correct.label }} {{ option.is_correct() }}
+                </div>
+            {% endfor %}
+        </div>
+        </div>
+        <br>
+    <button type="button" id="add-question">Add Question</button> <br>
+    <button type="submit">Create Quiz</button>
+    <br>
+    
+</form>
+<script>
+    var question_number = 2;
+    document.getElementById('add-question').addEventListener('click', function() {
+        var questionsDiv = document.getElementById('questions');
+        var newQuestionDiv = document.createElement('div');
+        newQuestionDiv.className = 'question';
+        var newDivHTML = "{{ form.questions["+question_number+"].text.label }} {{ form.questions["+question_number+"].text() }}";
+        console.log(newDivHTML)
+        newQuestionDiv.innerHTML = "newDivHTML" ;
+        questionsDiv.appendChild(newQuestionDiv);
+
+    });
+</script>
+<a href="{{ url_for('routes.dashboard') }}"> Back to Dashboard</a>
+
+{% endblock %}

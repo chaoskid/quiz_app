@@ -19,11 +19,13 @@
         <div id="questions">
             {% for question_form in form.questions %}
                 <div class="question">
-                    {{ question_form.text.label }}: {{ question_form.text() }}
+                    {{ question_form.text.label }} {{ question_form.text() }}
+                    <hr>
                     {% for option_form in question_form.options %}
                         <div class="option">
-                            {{ option_form.text.label }}: {{ option_form.text() }}
-                            {{ option_form.is_correct.label }}: {{ option_form.is_correct() }}
+                            {{ option_form.text.label }} {{ option_form.text() }}
+                            <br>
+                            {{ option_form.is_correct.label }} {{ option_form.is_correct() }}
                         </div>
                     {% endfor %}
                 </div>
@@ -37,32 +39,39 @@
     <script>
         document.getElementById('add-question').addEventListener('click', function() {
             var questionsDiv = document.getElementById('questions');
-            var questionNumber = questionsDiv.children.length + 1;
+            var questionNumber = questionsDiv.children.length ;
 
             var newQuestionDiv = document.createElement('div');
             newQuestionDiv.className = 'question';
 
             // Question Text Field
             var questionTextLabel = document.createElement('label');
-            questionTextLabel.innerText = 'Question ' + questionNumber + ': ';
+            questionTextLabel.innerText = 'Question: ';
             newQuestionDiv.appendChild(questionTextLabel);
             var questionText = document.createElement('input');
             questionText.type = 'text';
             questionText.name = 'questions-' + questionNumber + '-text';
+            questionText.id = 'questions-' + questionNumber + '-text';
+            questionTextLabel.htmlFor = questionText.id;
             newQuestionDiv.appendChild(questionText);
+            newQuestionDiv.appendChild(document.createElement("hr"));
 
             // Options
             for (var i = 0; i < 4; i++) {
                 var optionFormDiv = document.createElement('div');
+                optionFormDiv.className = 'option';
 
                 // Option Text Field
                 var optionTextLabel = document.createElement('label');
-                optionTextLabel.innerText = 'Option ' + (i+1) + ': ';
+                optionTextLabel.innerText = 'Option: ';
                 optionFormDiv.appendChild(optionTextLabel);
                 var optionText = document.createElement('input');
                 optionText.type = 'text';
                 optionText.name = 'questions-' + questionNumber + '-options-' + i + '-text';
+                optionText.id = 'questions-' + questionNumber + '-options-' + i + '-text';
+                optionTextLabel.htmlFor = optionText.id;
                 optionFormDiv.appendChild(optionText);
+                optionFormDiv.appendChild(document.createElement("br"));
 
                 // Is Correct Checkbox
                 var isCorrectLabel = document.createElement('label');
@@ -71,6 +80,8 @@
                 var isCorrectCheckbox = document.createElement('input');
                 isCorrectCheckbox.type = 'checkbox';
                 isCorrectCheckbox.name = 'questions-' + questionNumber + '-options-' + i + '-is_correct';
+                isCorrectCheckbox.id = 'questions-' + questionNumber + '-options-' + i + '-is_correct';
+                isCorrectLabel.htmlFor = isCorrectCheckbox.id;
                 optionFormDiv.appendChild(isCorrectCheckbox);
 
                 newQuestionDiv.appendChild(optionFormDiv);

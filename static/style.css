@@ -64,6 +64,18 @@ header li a {
     font-size: 2em;
 }
 
+.dashboard_quiz_container {
+
+    width: 70%;
+}
+
+aside {
+    float: right;
+    width: 25%;
+    border: solid 2px gray;
+    padding: 10px;
+}
+
 button {
 
     background-color:rgb(0, 106, 255);
@@ -147,4 +159,37 @@ input {
     padding-left: 5px;
     padding-right: 5px;
     margin: 5px;
+}
+table, th, td {
+    text-align: left;
+    border: 1px solid rgb(0, 106, 255) ;
+    border-collapse: collapse;
+    padding: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+th {
+    color: rgb(0, 106, 255) ;
+}
+
+#current_user_rank {
+
+    background-color: rgb(221, 239, 255);
+}
+
+#dashboard_table {
+    width: 100%;
+}
+
+#rank, #score {
+    width: 20%;
+}
+
+#name {
+    width: 60%;
+}
+
+table {
+    width: 25%;
 }

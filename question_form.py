@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, FieldList, FormField, SubmitField, BooleanField
+from wtforms import StringField, TextAreaField, FieldList, FormField, SubmitField, BooleanField, SelectField, TextAreaField
 from wtforms.validators import DataRequired
 from wtforms.widgets import RadioInput
 
@@ -13,5 +13,8 @@ class QuestionForm(FlaskForm):
 
 class QuizForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    choices = [("Basic","Basic"),("Intermediate","Intermediate"),("Advanced","Advanced")]
+    level= SelectField("Quiz Level", choices=choices)
     questions = FieldList(FormField(QuestionForm), min_entries=1, max_entries=5)
     submit = SubmitField('Create Quiz')

@@ -21,6 +21,8 @@ class User(UserMixin, db.Model):
 class Quiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(150), nullable=False)
+    level = db.Column(db.String(10), nullable=False)
     questions = db.relationship('Question', backref='quiz', cascade='all, delete-orphan')
     
 class Question(db.Model):

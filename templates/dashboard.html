@@ -3,13 +3,43 @@
 {% block content %}
 <h1>Hola {{ current_user.firstname }}, welcome back!</h1>
 <h2> Quizes Available For You</h2>
+<aside>
+    <h3>Leaderboard</h3>
+    <table id="dashboard_table">
+    <p><strong>Your QuizGenius Rank: {{ current_user_rank }}</strong></p>
+        <thead>
+            <tr>
+                <th id="rank">Rank</th>
+                <th id="name">Name</th>
+                <th id="score">Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for (user, score) in top_performers %}
+                {% if user.id == current_user.id %}
+                <tr id = "current_user_rank">
+                    <td>{{ loop.index }}</td>
+                    <td>{{ user.firstname }} {{ user.lastname }}</td>
+                    <td>{{ score }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ user.firstname }} {{ user.lastname }}</td>
+                    <td>{{ score }}</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</aside>
 <div class="dashboard_quiz_container">
 {% for quiz in quizes %}
 <div class="dashboard_quiz">
 <h4>{{ quiz.title }}</h4>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-<p><strong>Level: </strong>Basic</p>
+<p>{{ quiz.description }}</p>
+<p><strong>Level: </strong>{{ quiz.level }}</p>
 
 <p><a href="{{ url_for('routes.take_quiz', quiz_id=quiz.id) }}">Take Quiz</a></p>
 

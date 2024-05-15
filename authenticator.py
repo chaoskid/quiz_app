@@ -2,6 +2,7 @@ from functools import wraps
 from flask import session, redirect, url_for
 from routes import *
 
+#Adding custom decorator for user logged in.
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -10,7 +11,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-
+#Adding custom decorator for admin logged in.
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):

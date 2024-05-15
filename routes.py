@@ -7,18 +7,23 @@ from question_form import QuizForm
 
 import bcrypt
 
+#bcrypt method to hash password and check hashed password while log in
 def hash_password(password):
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
 def verify_password(hashed_password,password):
     return bcrypt.checkpw(password.encode('utf-8'),hashed_password)
 
+#initializing routes blueprint
 routes = Blueprint('routes', __name__)
 
+#Setting the homepage route to log in.
+#Homepage will be set up later
 @routes.route('/')
 def index():
     return redirect(url_for('routes.login'))
 
+#Register route
 @routes.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -35,6 +40,7 @@ def register():
         return redirect(url_for('routes.login'))
     return render_template('register.html', current_user=current_user)
 
+#Route for admin registration -- Will be updated to a dynamic url log in.
 @routes.route('/admin_register', methods=['GET', 'POST'])
 def admin_register():
     if request.method == 'POST':
@@ -51,7 +57,7 @@ def admin_register():
         return redirect(url_for('routes.login'))
     return render_template('admin_signup.html', current_user=current_user)
 
-
+#log in route
 @routes.route('/login', methods = ['GET','POST'])
 def login():
     if request.method == 'POST':
@@ -61,18 +67,25 @@ def login():
         if user and verify_password(user.pswrd, password):
             role = user.role
             login_user(user)
+
+            #Updating session for admin log in.
             if role == 'Admin':
                 session['admin_logged_in'] = True
-                print("Admin Logged In")
+            
+            # If not admin, setting the session for user logged in
             session['user_logged_in'] = True
-            print("User Logged In")
-            print(session)
+
+            #return to dashboard if log in is successsfull
             return redirect(url_for('routes.dashboard'))
+        
         else:
-            print("Not logged in")
+            #Flash message if log in is not successful.
             flash('Invalid username or password. Please try again.')
+    
+    #Render log in page for get requests
     return render_template('login.html', current_user=current_user)
 
+#Route for log out and admin log out
 @routes.route('/logout')
 @login_required
 def logout():
@@ -80,72 +93,93 @@ def logout():
     session.pop('admin_logged_in', None)
     return redirect(url_for('routes.login'))
 
+#Dashboard route to display available quiz and leaderboard
 @routes.route('/dashboard')
 @login_required
 def dashboard():
+
+    #Querying available quizzes from db
     quizes = Quiz.query.all()
+
+    #Querying users from db for leaderboard.
     users = User.query.all()
 
+    #Calculating the top 5 people in the platform based on scores for all quizzes.
     user_scores = []
     for user in users:
         total_score = sum(score.score for score in user.quiz_scores)
         user_scores.append((user, total_score))
     
     sorted_users = sorted(user_scores, key=lambda x: x[1], reverse=True)
-    print(sorted_users)
-    print(current_user.id)
+    
+    current_user_rank = None
+    current_user_score = None
+
     for index, (user,score) in enumerate(sorted_users,1):
+
+        #Removing admin user from the top performers
         if user.role=="Admin":
             sorted_users.pop(index-1)
             pass
+        
+        #Setting current user details to highlight in the page
         if current_user.id == user.id:
             current_user_rank = index
             current_user_score = score
-    print(current_user_rank)
-    top_performers = sorted_users[:5]
+        
+    #Limiting the dashboard to just 5 records
+    top_performers = sorted_users[:10]
 
 
     return render_template('dashboard.html', quizes=quizes,current_user=current_user, user_score=current_user_score, current_user_rank=current_user_rank, top_performers=top_performers)
 
+#Route for create quiz
 @routes.route('/create_quiz', methods=['GET','POST'])
+#Admin required for creating quiz
 @admin_required
 def create_quiz():
+
+    #Initialize wtf form for quiz
     form = QuizForm()
+
+    #Getting the quiz details on submit
     if request.method == 'POST':
-    #if form.validate_on_submit():
-        print("*****************")
         quiz = Quiz()
         quiz.title=form.title.data
         quiz.description = form.description.data
         quiz.level = form.level.data
-        print(quiz.title)
+
         for question_data in form.questions.data:
-            print("------------------")
-            print(question_data['text'])
             if question_data['text'] != None:    
                 question = Question(text=question_data['text'], quiz=quiz)
-                print(question.text)
-                print("*****************")
+
                 for option_data in question_data['options']:
                     option = Option(text=option_data['text'], is_correct=option_data['is_correct'], question=question)
                     question.options.append(option)
+                
                 quiz.questions.append(question)
+        
         db.session.add(quiz)
         db.session.commit()
-        print('Quiz created successfully!')
+
         return redirect(url_for('routes.dashboard'))
     return render_template('create_quiz.html',form=form,current_user=current_user)
 
 
+#Route for quiz attempt page
 @routes.route('/quiz/<int:quiz_id>', methods=['GET','POST'])
 @login_required
 def take_quiz(quiz_id):
+
+    #Querying quiz and user details
     quiz=Quiz.query.get(quiz_id)
     user_score = UserQuizScore.query.filter_by(user_id=current_user.id, quiz_id=quiz_id).first()
+
+    #Redirect to result page if score is already there.
     if user_score:
-        #flash("You have already attempted this quiz")
         return redirect(url_for('routes.quiz_result',  quiz_id=quiz_id))
     
+    #Calculating score on quiz submit
     if request.method == 'POST':
         score = 0
         for question in quiz.questions:
@@ -153,17 +187,23 @@ def take_quiz(quiz_id):
             correct_option_id = Option.query.filter_by(question_id = question.id, is_correct=True).first().id
             if selected_option_id == correct_option_id:
                 score = score+1
-        #flash(f'Yout score: {score}/{len(quiz.questions)}')
+        
+        #Updating new score to the db
         new_score = UserQuizScore(user_id=current_user.id, quiz_id=quiz_id, score=score)
+
+        #Only submit score to db if the user is not an admin.
         if current_user.role != "Admin":
             db.session.add(new_score)
             db.session.commit()
         return redirect(url_for('routes.quiz_result', quiz_id=quiz_id))
     return render_template('quiz.html', quiz=quiz, current_user=current_user)
 
+#Route for rendering the quiz results
 @routes.route('/quiz/<int:quiz_id>/result')
 @login_required
 def quiz_result(quiz_id):
+
+    #Calculating rank for leaderboard.
     current_user_rank = None
     quiz = Quiz.query.get(quiz_id)
     user_score = current_user.get_score(quiz_id)
@@ -171,7 +211,6 @@ def quiz_result(quiz_id):
     sorted_scores = sorted(quiz_scores, key=lambda x: x.score, reverse=True)
     if user_score:
         for index, score in enumerate(sorted_scores,1):
-            print(index,score.score)
             if score.score == user_score:
                 current_user_rank = index
                 break

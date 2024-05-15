@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Hola {{ current_user.firstname }}, welcome back!</h1>
+<h1>Hola <span id='user_name'>{{ current_user.firstname }}</span>, welcome back!</h1>
 <h2> Quizes Available For You</h2>
 <aside>
     <h3>Leaderboard</h3>

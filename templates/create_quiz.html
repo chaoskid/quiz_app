@@ -8,10 +8,10 @@
         {{ form.csrf_token }}
 
         <!-- Title Field -->
-        <div>
-            {{ form.title.label }} {{ form.title() }} <br>
+        <div id="quiz_title">
+            {{ form.title.label }} {{ form.title() }}
             {{ form.level.label }} {{ form.level() }} <br>
-            {{ form.description.label }} {{form.description() }}
+            {{ form.description.label }} <br> {{form.description(rows='5',cols='70') }}
             {% for error in form.title.errors %}
                 <span style="color: red;">{{ error }}</span>
             {% endfor %}

@@ -72,8 +72,8 @@ header li a {
 aside {
     float: right;
     width: 25%;
-    border: solid 2px gray;
-    padding: 10px;
+    background-color: rgb(245, 244, 244);
+    padding: 25px;
 }
 
 button {
@@ -101,14 +101,20 @@ input {
 .dashboard_quiz {
 
     display: inline-block;
-    margin: 10px;
+    margin: 5px;
     margin-top: 10px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
     padding-top: 5px;
     padding-bottom: 5px;
-    width: 20%;
-    border: 1px solid #006aff;
+    width: 25%;
+    background-color: rgb(167, 204, 255);
+    color: rgb(0, 0, 0);
+}
+
+.dashboard_quiz:hover {
+    color: rgb(0, 0, 0);
+    background-color: rgb(230, 230, 230);
 }
 
 .dashboard_quiz a {
@@ -162,7 +168,7 @@ input {
 }
 table, th, td {
     text-align: left;
-    border: 1px solid rgb(0, 106, 255) ;
+    border: 1px solid rgb(178, 178, 178) ;
     border-collapse: collapse;
     padding: 2px;
     padding-left: 10px;
@@ -170,12 +176,13 @@ table, th, td {
 }
 
 th {
-    color: rgb(0, 106, 255) ;
+    color: rgb(255, 255, 255) ;
+    background-color: rgb(178, 178, 178)
 }
 
 #current_user_rank {
 
-    background-color: rgb(221, 239, 255);
+    background-color: rgb(228, 228, 228);
 }
 
 #dashboard_table {
@@ -192,4 +199,25 @@ th {
 
 table {
     width: 25%;
+}
+
+#user_name {
+
+    color:#006aff;
+}
+
+#quiz_title label {
+
+    margin-right: 10px;
+}
+
+#quiz_title input {
+
+    margin-left: 15px;
+    margin-right: 30px;
+}
+
+#quiz_title select {
+
+    margin-left: 15px;
 }

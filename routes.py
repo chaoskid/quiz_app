@@ -40,23 +40,6 @@ def register():
         return redirect(url_for('routes.login'))
     return render_template('register.html', current_user=current_user)
 
-#Route for admin registration -- Will be updated to a dynamic url log in.
-@routes.route('/admin_register', methods=['GET', 'POST'])
-def admin_register():
-    if request.method == 'POST':
-        firstname = request.form['firstname']
-        lastname = request.form['lastname']
-        role = request.form['role']
-        username = request.form['username']
-        password = request.form['password']
-        hashed_password = hash_password(password)
-        new_user = User(firstname=firstname, lastname=lastname, role=role, username=username, pswrd=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-        flash("Registration Successful. Please log in.")
-        return redirect(url_for('routes.login'))
-    return render_template('admin_signup.html', current_user=current_user)
-
 #log in route
 @routes.route('/login', methods = ['GET','POST'])
 def login():
@@ -167,7 +150,7 @@ def create_quiz():
 
 
 #Route for delete quiz
-@routes.route('/quiz/<int:quiz_id>', methods=['GET','POST'])
+@routes.route('/delete_quiz_by_id/<int:quiz_id>', methods=['GET','POST'])
 @admin_required
 def delete_quiz_by_id(quiz_id):
 

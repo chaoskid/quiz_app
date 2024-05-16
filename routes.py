@@ -128,7 +128,7 @@ def dashboard():
             current_user_score = score
         
     #Limiting the dashboard to just 5 records
-    top_performers = sorted_users[:10]
+    top_performers = sorted_users[:5]
 
 
     return render_template('dashboard.html', quizes=quizes,current_user=current_user, user_score=current_user_score, current_user_rank=current_user_rank, top_performers=top_performers)
@@ -188,9 +188,15 @@ def take_quiz(quiz_id):
             if selected_option_id == correct_option_id:
                 score = score+1
         
+        #Boost the score based on the quiz level
+        if quiz.level == 'Intermediate':
+            score = score + (score * 0.25)
+        elif quiz.level == 'Advanced' :
+            score = score + (score * 0.5)
+        
         #Updating new score to the db
         new_score = UserQuizScore(user_id=current_user.id, quiz_id=quiz_id, score=score)
-
+        
         #Only submit score to db if the user is not an admin.
         if current_user.role != "Admin":
             db.session.add(new_score)

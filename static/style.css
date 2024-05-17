@@ -221,3 +221,14 @@ table {
 
     margin-left: 15px;
 }
+
+#delete_quiz_by_id img{
+
+    width:25px;
+    vertical-align: middle;
+}
+
+#delete_quiz_by_id {
+    padding: auto;
+    background-color: red;
+}

@@ -166,6 +166,22 @@ def create_quiz():
     return render_template('create_quiz.html',form=form,current_user=current_user)
 
 
+#Route for delete quiz
+@routes.route('/quiz/<int:quiz_id>', methods=['GET','POST'])
+@admin_required
+def delete_quiz_by_id(quiz_id):
+
+    # Find the quiz by ID
+    quiz = Quiz.query.get_or_404(quiz_id)
+    
+    # Delete the quiz
+    db.session.delete(quiz)
+    
+    # Commit the changes
+    db.session.commit()
+    
+    return redirect(url_for('routes.dashboard'))
+
 #Route for quiz attempt page
 @routes.route('/quiz/<int:quiz_id>', methods=['GET','POST'])
 @login_required

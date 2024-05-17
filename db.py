@@ -26,14 +26,14 @@ class Quiz(db.Model):
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(150), nullable=False)
     level = db.Column(db.String(10), nullable=False)
-    questions = db.relationship('Question', backref='quiz', cascade='all, delete-orphan')
+    questions = db.relationship('Question', backref='quiz', cascade='all, delete-orphan', lazy=True)
 
 #Question table
 class Question(db.Model):
     id= db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(100), nullable=False)
     quiz_id = db.Column(db.Integer, db.ForeignKey('quiz.id'), nullable=False)
-    options = db.relationship('Option', backref='question', lazy=True)
+    options = db.relationship('Option', backref='question', cascade='all, delete-orphan', lazy=True)
 
 #Option table
 class Option(db.Model):
